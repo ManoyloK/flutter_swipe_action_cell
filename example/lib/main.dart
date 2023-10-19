@@ -196,24 +196,33 @@ class _SwipeActionPageState extends State<SwipeActionPage> {
             title: "delete",
             performsFirstActionWithFullSwipe: true,
             nestedAction: SwipeNestedAction(title: "confirm"),
-            onTap: (handler) async {
+            onTap: (context, handler) async {
               await handler(true);
 
               list.removeAt(index);
               setState(() {});
             }),
-        SwipeAction(title: "action2", color: Colors.grey, onTap: (handler) {}),
+        SwipeAction(
+          title: "action2",
+          color: Colors.grey,
+          onTap: (context, handler) {},
+        ),
       ],
       leadingActions: [
         SwipeAction(
             title: "delete",
-            onTap: (handler) async {
+            onTap: (context, handler) async {
               await handler(true);
               list.removeAt(index);
-              setState(() {});
+              setState(
+                () {},
+              );
             }),
         SwipeAction(
-            title: "action3", color: Colors.orange, onTap: (handler) {}),
+          title: "action3",
+          color: Colors.orange,
+          onTap: (context, handler) {},
+        ),
       ],
       child: GestureDetector(
         onTap: () {

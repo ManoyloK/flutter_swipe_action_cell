@@ -616,9 +616,9 @@ class SwipeActionCellState extends State<SwipeActionCell>
       };
 
       if (whenTrailingActionShowing && widget.trailingActions != null) {
-        widget.trailingActions?[0].onTap(completionHandler);
+        widget.trailingActions?[0].onTap(context, completionHandler);
       } else if (whenLeadingActionShowing && widget.leadingActions != null) {
-        widget.leadingActions?[0].onTap(completionHandler);
+        widget.leadingActions?[0].onTap(context, completionHandler);
       }
     } else {
       /// normal dragging update
@@ -1009,7 +1009,10 @@ class SwipeActionCellState extends State<SwipeActionCell>
 ///
 typedef CompletionHandler = Future<void> Function(bool delete);
 
-typedef SwipeActionOnTapCallback = void Function(CompletionHandler handler);
+typedef SwipeActionOnTapCallback = void Function(
+  BuildContext context,
+  CompletionHandler handler,
+);
 
 class SwipeAction {
   /// title's text Style

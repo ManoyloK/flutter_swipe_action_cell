@@ -3,14 +3,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 
 void main() {
-  testWidgets('Actions buttons can show and hide correctly when actions update.', (tester) async {
+  testWidgets(
+      'Actions buttons can show and hide correctly when actions update.',
+      (tester) async {
     final GlobalKey key = GlobalKey();
     final List<SwipeAction> trailingActions = [
-      SwipeAction(onTap: (handler) {}, title: "trailingAction 1"),
-      SwipeAction(onTap: (handler) {}, title: "trailingAction 2"),
+      SwipeAction(onTap: (context, handler) {}, title: "trailingAction 1"),
+      SwipeAction(onTap: (context, handler) {}, title: "trailingAction 2"),
     ];
     final List<SwipeAction> leadingActions = [
-      SwipeAction(onTap: (handler) {}, title: "leadingActions 1"),
+      SwipeAction(onTap: (context, handler) {}, title: "leadingActions 1"),
     ];
 
     final SwipeActionController controller = SwipeActionController();
@@ -50,7 +52,6 @@ void main() {
     );
     expect(find.text('leadingActions 1'), findsNothing);
 
-
     controller.closeAllOpenCell();
     await tester.pumpAndSettle();
 
@@ -72,15 +73,15 @@ void main() {
         ),
       ),
     ));
-    await tester.timedDrag(
-        find.byKey(key), const Offset(-100, 0), const Duration(milliseconds: 100));
+    await tester.timedDrag(find.byKey(key), const Offset(-100, 0),
+        const Duration(milliseconds: 100));
     expect(find.text('trailingAction 1'), findsOneWidget);
     expect(find.text('trailingAction 2'), findsOneWidget);
 
     controller.closeAllOpenCell();
     await tester.pumpAndSettle();
-    await tester.timedDrag(
-        find.byKey(key), const Offset(100, 0), const Duration(milliseconds: 100));
+    await tester.timedDrag(find.byKey(key), const Offset(100, 0),
+        const Duration(milliseconds: 100));
     expect(find.text('leadingActions 1'), findsOneWidget);
 
     // No update the actions to null again, and we expect to see buttons.
@@ -99,15 +100,15 @@ void main() {
         ),
       ),
     ));
-    await tester.timedDrag(
-        find.byKey(key), const Offset(-100, 0), const Duration(milliseconds: 100));
+    await tester.timedDrag(find.byKey(key), const Offset(-100, 0),
+        const Duration(milliseconds: 100));
     expect(find.text('trailingAction 1'), findsNothing);
     expect(find.text('trailingAction 2'), findsNothing);
 
     controller.closeAllOpenCell();
     await tester.pumpAndSettle();
-    await tester.timedDrag(
-        find.byKey(key), const Offset(100, 0), const Duration(milliseconds: 100));
+    await tester.timedDrag(find.byKey(key), const Offset(100, 0),
+        const Duration(milliseconds: 100));
     expect(find.text('leadingActions 1'), findsNothing);
   });
 }

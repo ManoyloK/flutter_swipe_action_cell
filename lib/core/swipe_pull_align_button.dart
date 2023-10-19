@@ -236,7 +236,7 @@ class _SwipePullAlignButtonState extends State<SwipePullAlignButton>
           _animToCoverPullActionContent();
           return;
         }
-        action.onTap.call(handler);
+        action.onTap.call(context, handler);
       },
       child: Transform.translate(
         offset: Offset((trailing ? 1 : -1) * data.contentWidth + offsetX, 0),
