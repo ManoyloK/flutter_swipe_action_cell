@@ -32,6 +32,11 @@ class SwipeActionCell extends StatefulWidget {
   /// 无需多言
   final Widget child;
 
+  /// Your not swiping bottom content view
+  ///
+  /// 无需多言
+  final Widget? footer;
+
   /// Close actions When you scroll the ListView . default value = true
   ///
   /// 当你滚动（比如ListView之类的时候，这个item将会关闭拉出的actions，默认为true
@@ -154,6 +159,7 @@ class SwipeActionCell extends StatefulWidget {
     this.openAnimationCurve = Curves.easeOutQuart,
     this.closeAnimationCurve = Curves.easeOutQuart,
     this.selectedForegroundColor,
+    this.footer,
   }) : super(key: key);
 
   @override
@@ -867,36 +873,48 @@ class SwipeActionCellState extends State<SwipeActionCell>
       ignoring: ignorePointer,
       child: SizeTransition(
         sizeFactor: deleteCurvedAnim,
-        child: RawGestureDetector(
-          behavior: HitTestBehavior.opaque,
-          gestures: gestures,
-          child: ColoredBox(
-            color: widget.backgroundColor ??
-                Theme.of(context).scaffoldBackgroundColor,
-            child: DecoratedBox(
-              position: DecorationPosition.foreground,
-              decoration: BoxDecoration(
-                color: selected
-                    ? (widget.selectedForegroundColor ??
-                        Colors.black.withAlpha(30))
-                    : Colors.transparent,
-              ),
-              child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  width = constraints.maxWidth;
-                  return Stack(
-                    alignment: Alignment.centerLeft,
-                    children: <Widget>[
-                      selectedButton,
-                      content,
-                      trailing,
-                      leading,
-                    ],
-                  );
-                },
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            RawGestureDetector(
+              behavior: HitTestBehavior.opaque,
+              gestures: gestures,
+              child: ColoredBox(
+                color: widget.backgroundColor ??
+                    Theme.of(context).scaffoldBackgroundColor,
+                child: DecoratedBox(
+                  position: DecorationPosition.foreground,
+                  decoration: BoxDecoration(
+                    color: selected
+                        ? (widget.selectedForegroundColor ??
+                            Colors.black.withAlpha(30))
+                        : Colors.transparent,
+                  ),
+                  child: LayoutBuilder(
+                    builder:
+                        (BuildContext context, BoxConstraints constraints) {
+                      width = constraints.maxWidth;
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Stack(
+                            alignment: Alignment.centerLeft,
+                            children: <Widget>[
+                              selectedButton,
+                              content,
+                              trailing,
+                              leading,
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
               ),
             ),
-          ),
+            if (widget.footer != null) widget.footer!,
+          ],
         ),
       ),
     );
